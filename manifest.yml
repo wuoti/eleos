@@ -16,3 +16,4 @@ permissions:
     fetch:
       backend:
         - api.openai.com
+        - curated.aleph.cloud

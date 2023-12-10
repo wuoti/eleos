@@ -9,8 +9,5 @@ export const fetchIssueDescription = async (issueIdOrKey) => {
 
   const data = await res.json()
 
-  return {
-    htmlDescription: data.renderedFields.description,
-    adfDescription: data.fields.description,
-  }
+  return data.renderedFields.description
 }

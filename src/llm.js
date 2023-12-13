@@ -88,7 +88,7 @@ export const fetchAcceptanceCriteriaWithJuvenileTone = async (params) => {
   return safeParse(response.choices[0].message.content)
 }
 
-export const fetchAcceptanceCriteriaInPoeticForm = async (params) => {
+export const fetchAcceptanceCriteriaInHaikuForm = async (params) => {
   const { acceptanceCriteria } = params
   const response = await fetchAcceptanceCriteriaFromLLM({
     ...params,

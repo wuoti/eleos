@@ -14,11 +14,9 @@ import ForgeUI, {
 } from "@forge/ui"
 import {
   fetchAcceptanceCriteria,
-  fetchAcceptanceCriteriaInPoeticForm,
-  fetchAcceptanceCriteriaWithCaptainTone,
+  fetchAcceptanceCriteriaInHaikuForm,
   fetchAcceptanceCriteriaWithJuvenileTone,
   fetchAcceptanceCriteriaWithSarcasticTone,
-  fetchShorterAcceptanceCriteria,
   fetchSimplifiedAcceptanceCriteria,
 } from "./llm"
 import { fetchIssueDescription } from "./jira-api"
@@ -43,14 +41,14 @@ const normalTone = "normal"
 const sarcasticTone = "sarcastic"
 const captainTone = "captain"
 const juvenileTone = "juvenile"
-const poemTone = "poem"
+const haikuTone = "haiku"
 const simpleTone = "simple"
 const tones = [
   normalTone,
   sarcasticTone,
   captainTone,
   juvenileTone,
-  poemTone,
+  haikuTone,
   simpleTone,
 ]
 
@@ -146,9 +144,9 @@ const App = () => {
       if (tone !== normalTone && !getAcceptanceCriteriaForTone(tone)) {
         const fetchers = {
           sarcastic: fetchAcceptanceCriteriaWithSarcasticTone,
-          juvenile: fetchAcceptanceCriteriaWithJuvenileTone,
-          poem: fetchAcceptanceCriteriaInPoeticForm,
           simple: fetchSimplifiedAcceptanceCriteria,
+          juvenile: fetchAcceptanceCriteriaWithJuvenileTone,
+          haiku: fetchAcceptanceCriteriaInHaikuForm,
         }
 
         const { criteriaCount, llm } = formState
@@ -173,7 +171,7 @@ const App = () => {
     [simpleTone]: "Simplify ✨",
     [sarcasticTone]: "Sarcastic! 🤪",
     [juvenileTone]: "Juvenile 👶",
-    [poemTone]: "Poem ✍️",
+    [haikuTone]: "Haiku ✍️",
   }
 
   return (

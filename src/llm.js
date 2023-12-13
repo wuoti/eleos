@@ -71,23 +71,6 @@ export const fetchAcceptanceCriteriaWithSarcasticTone = async (params) => {
   return safeParse(response.choices[0].message.content)
 }
 
-export const fetchAcceptanceCriteriaWithCaptainTone = async (params) => {
-  const { acceptanceCriteria } = params
-  const response = await fetchAcceptanceCriteriaFromLLM({
-    ...params,
-    extraMessages: [
-      { role: "system", content: JSON.stringify(acceptanceCriteria) },
-      {
-        role: "user",
-        content:
-          "Make the acceptance criteria sound like a flight announcement. Include a weather report in the response. Return the response in the valid JSON string array format as earlier. The response should consist of only the JSON array and nothing else.",
-      },
-    ],
-  })
-
-  return safeParse(response.choices[0].message.content)
-}
-
 export const fetchAcceptanceCriteriaWithJuvenileTone = async (params) => {
   const { acceptanceCriteria } = params
   const response = await fetchAcceptanceCriteriaFromLLM({
@@ -115,6 +98,23 @@ export const fetchAcceptanceCriteriaInPoeticForm = async (params) => {
         role: "user",
         content:
           "Make it into a haiku poem. Return the as JSON string array format as earlier. The response should consist of only the JSON array with string elements and nothing else.",
+      },
+    ],
+  })
+
+  return safeParse(response.choices[0].message.content)
+}
+
+export const fetchSimplifiedAcceptanceCriteria = async (params) => {
+  const { acceptanceCriteria } = params
+  const response = await fetchAcceptanceCriteriaFromLLM({
+    ...params,
+    extraMessages: [
+      { role: "system", content: JSON.stringify(acceptanceCriteria) },
+      {
+        role: "user",
+        content:
+          "Make it more simple so that it can be understood by a 3-year-old. Don't use jargon. Return the response as JSON string array format as earlier. The response should consist of only the JSON array with string elements and nothing else.",
       },
     ],
   })

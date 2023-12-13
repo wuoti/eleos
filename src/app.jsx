@@ -18,6 +18,8 @@ import {
   fetchAcceptanceCriteriaWithCaptainTone,
   fetchAcceptanceCriteriaWithJuvenileTone,
   fetchAcceptanceCriteriaWithSarcasticTone,
+  fetchShorterAcceptanceCriteria,
+  fetchSimplifiedAcceptanceCriteria,
 } from "./llm"
 import { fetchIssueDescription } from "./jira-api"
 
@@ -42,7 +44,15 @@ const sarcasticTone = "sarcastic"
 const captainTone = "captain"
 const juvenileTone = "juvenile"
 const poemTone = "poem"
-const tones = [normalTone, sarcasticTone, captainTone, juvenileTone, poemTone]
+const simpleTone = "simple"
+const tones = [
+  normalTone,
+  sarcasticTone,
+  captainTone,
+  juvenileTone,
+  poemTone,
+  simpleTone,
+]
 
 const useAcceptanceCriteria = () => {
   const initialAcceptanceCriteria = tones.reduce(
@@ -136,9 +146,9 @@ const App = () => {
       if (tone !== normalTone && !getAcceptanceCriteriaForTone(tone)) {
         const fetchers = {
           sarcastic: fetchAcceptanceCriteriaWithSarcasticTone,
-          captain: fetchAcceptanceCriteriaWithCaptainTone,
           juvenile: fetchAcceptanceCriteriaWithJuvenileTone,
           poem: fetchAcceptanceCriteriaInPoeticForm,
+          simple: fetchSimplifiedAcceptanceCriteria,
         }
 
         const { criteriaCount, llm } = formState
@@ -160,8 +170,8 @@ const App = () => {
 
   const labels = {
     [normalTone]: "Normal 😐",
+    [simpleTone]: "Simplify ✨",
     [sarcasticTone]: "Sarcastic! 🤪",
-    [captainTone]: "Captain 👩‍✈️",
     [juvenileTone]: "Juvenile 👶",
     [poemTone]: "Poem ✍️",
   }
@@ -170,7 +180,9 @@ const App = () => {
     <IssuePanel>
       <Form
         onSubmit={onSubmit}
-        submitButtonText="Get acceptance criteria"
+        submitButtonText={
+          normalToneAcceptanceCriteria ? "Regenerate" : "Generate"
+        }
         actionButtons={
           normalToneAcceptanceCriteria
             ? Object.entries(labels).map(([tone, label]) => (

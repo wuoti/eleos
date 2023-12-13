@@ -2,7 +2,7 @@ import { fetch } from "@forge/api"
 import { getLLmConfig } from "./config"
 
 const getPrompt = (criteriaCount) =>
-  `You are an assistant in an issue management, such as Atlassian Jira. Your task is to receive a description for a technical issue as input and create an ${criteriaCount}-step acceptance criteria based on the description in JSON array format where each item is one item of the acceptance criteria in plain text. The response should consist of only the JSON array and nothing else.`
+  `You are an assistant in an issue management tool, such as Atlassian Jira. Your task is to receive a description for a technical issue as input and create an ${criteriaCount}-step acceptance criteria based on the description in JSON array format where each item is one item of the acceptance criteria in plain text. The response should consist of only the JSON array and nothing else.`
 
 const fetchAcceptanceCriteriaFromLLM = async ({
   description,
@@ -32,11 +32,6 @@ const fetchAcceptanceCriteriaFromLLM = async ({
         },
         ...(extraMessages ? extraMessages : []),
       ],
-      temperature: 1,
-      max_tokens: 3500,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
     }),
   })
 

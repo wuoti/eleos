@@ -26,6 +26,13 @@ forge deploy
 forge install
 ```
 
+- You will also need to set up the environment variables for Libertai and ChatGPT API keys running:
+
+```
+forge variables set --encrypt LIBERTAI_API_KEY <add-libertai-api-key>
+forge variables set --encrypt CHATGPT_API_KEY <add-chatgpt-api-key>
+```
+
 - Develop the app by running `forge tunnel` to proxy invocations locally. You will need to specify the API keys for Libertai and ChatGPT as environment variables:
 
 ```

@@ -2,7 +2,7 @@
 
 ## What is it?
 
-A Jira plugin written as [Atlassian Forge app](https://developer.atlassian.com/platform/forge) to generate acceptance criteria for a Jira ticket.
+A Jira plugin written as [Atlassian Forge app](https://developer.atlassian.com/platform/forge) to generate acceptance criteria for a Jira ticket using a LLM.
 
 ## How does it work?
 

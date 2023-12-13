@@ -14,10 +14,10 @@ import ForgeUI, {
 } from "@forge/ui"
 import {
   fetchAcceptanceCriteria,
-  fetchAcceptanceCriteriaInPoeticForm,
-  fetchAcceptanceCriteriaWithCaptainTone,
+  fetchAcceptanceCriteriaInHaikuForm,
   fetchAcceptanceCriteriaWithJuvenileTone,
   fetchAcceptanceCriteriaWithSarcasticTone,
+  fetchSimplifiedAcceptanceCriteria,
 } from "./llm"
 import { fetchIssueDescription } from "./jira-api"
 
@@ -41,8 +41,16 @@ const normalTone = "normal"
 const sarcasticTone = "sarcastic"
 const captainTone = "captain"
 const juvenileTone = "juvenile"
-const poemTone = "poem"
-const tones = [normalTone, sarcasticTone, captainTone, juvenileTone, poemTone]
+const haikuTone = "haiku"
+const simpleTone = "simple"
+const tones = [
+  normalTone,
+  sarcasticTone,
+  captainTone,
+  juvenileTone,
+  haikuTone,
+  simpleTone,
+]
 
 const useAcceptanceCriteria = () => {
   const initialAcceptanceCriteria = tones.reduce(
@@ -136,9 +144,9 @@ const App = () => {
       if (tone !== normalTone && !getAcceptanceCriteriaForTone(tone)) {
         const fetchers = {
           sarcastic: fetchAcceptanceCriteriaWithSarcasticTone,
-          captain: fetchAcceptanceCriteriaWithCaptainTone,
+          simple: fetchSimplifiedAcceptanceCriteria,
           juvenile: fetchAcceptanceCriteriaWithJuvenileTone,
-          poem: fetchAcceptanceCriteriaInPoeticForm,
+          haiku: fetchAcceptanceCriteriaInHaikuForm,
         }
 
         const { criteriaCount, llm } = formState
@@ -160,17 +168,19 @@ const App = () => {
 
   const labels = {
     [normalTone]: "Normal 😐",
+    [simpleTone]: "Simplify ✨",
     [sarcasticTone]: "Sarcastic! 🤪",
-    [captainTone]: "Captain 👩‍✈️",
     [juvenileTone]: "Juvenile 👶",
-    [poemTone]: "Poem ✍️",
+    [haikuTone]: "Haiku ✍️",
   }
 
   return (
     <IssuePanel>
       <Form
         onSubmit={onSubmit}
-        submitButtonText="Get acceptance criteria"
+        submitButtonText={
+          normalToneAcceptanceCriteria ? "Regenerate" : "Generate"
+        }
         actionButtons={
           normalToneAcceptanceCriteria
             ? Object.entries(labels).map(([tone, label]) => (

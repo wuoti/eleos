@@ -1,8 +1,8 @@
 modules:
   jira:issuePanel:
-    - key: eleos-hello-world-panel
+    - key: eleos-panel
       function: main
-      title: Eleos
+      title: Eleos - Acceptance Criteria Generator
       icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
   function:
     - key: main

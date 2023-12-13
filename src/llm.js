@@ -2,7 +2,7 @@ import { fetch } from "@forge/api"
 import { getLLmConfig } from "./config"
 
 const getPrompt = (criteriaCount) =>
-  `You are an assistant in an issue management, such as Atlassian Jira. Your task is to receive a description for a technical issue as input and create an ${criteriaCount}-step acceptance criteria based on the description in JSON array format where each item is one item of the acceptance criteria in plain text. The response should consist of only the JSON array and nothing else.`
+  `You are an assistant in an issue management tool, such as Atlassian Jira. Your task is to receive a description for a technical issue as input and create acceptance criteria with ${criteriaCount} steps based on the description in JSON array format where each item is one item of the acceptance criteria in plain text. The response should consist of only the JSON array and nothing else.`
 
 const fetchAcceptanceCriteriaFromLLM = async ({
   description,
@@ -32,16 +32,11 @@ const fetchAcceptanceCriteriaFromLLM = async ({
         },
         ...(extraMessages ? extraMessages : []),
       ],
-      temperature: 1,
-      max_tokens: 3500,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
     }),
   })
 
   const text = await response.text()
-  console.log("text", text)
+  console.log("response", text)
 
   return response.json()
 }
@@ -76,23 +71,6 @@ export const fetchAcceptanceCriteriaWithSarcasticTone = async (params) => {
   return safeParse(response.choices[0].message.content)
 }
 
-export const fetchAcceptanceCriteriaWithCaptainTone = async (params) => {
-  const { acceptanceCriteria } = params
-  const response = await fetchAcceptanceCriteriaFromLLM({
-    ...params,
-    extraMessages: [
-      { role: "system", content: JSON.stringify(acceptanceCriteria) },
-      {
-        role: "user",
-        content:
-          "Make the acceptance criteria sound like a flight announcement. Include a weather report in the response. Return the response in the valid JSON string array format as earlier. The response should consist of only the JSON array and nothing else.",
-      },
-    ],
-  })
-
-  return safeParse(response.choices[0].message.content)
-}
-
 export const fetchAcceptanceCriteriaWithJuvenileTone = async (params) => {
   const { acceptanceCriteria } = params
   const response = await fetchAcceptanceCriteriaFromLLM({
@@ -110,7 +88,7 @@ export const fetchAcceptanceCriteriaWithJuvenileTone = async (params) => {
   return safeParse(response.choices[0].message.content)
 }
 
-export const fetchAcceptanceCriteriaInPoeticForm = async (params) => {
+export const fetchAcceptanceCriteriaInHaikuForm = async (params) => {
   const { acceptanceCriteria } = params
   const response = await fetchAcceptanceCriteriaFromLLM({
     ...params,
@@ -120,6 +98,23 @@ export const fetchAcceptanceCriteriaInPoeticForm = async (params) => {
         role: "user",
         content:
           "Make it into a haiku poem. Return the as JSON string array format as earlier. The response should consist of only the JSON array with string elements and nothing else.",
+      },
+    ],
+  })
+
+  return safeParse(response.choices[0].message.content)
+}
+
+export const fetchSimplifiedAcceptanceCriteria = async (params) => {
+  const { acceptanceCriteria } = params
+  const response = await fetchAcceptanceCriteriaFromLLM({
+    ...params,
+    extraMessages: [
+      { role: "system", content: JSON.stringify(acceptanceCriteria) },
+      {
+        role: "user",
+        content:
+          "Make it more simple so that it can be understood by a 3-year-old. Don't use jargon. Return the response as JSON string array format as earlier. The response should consist of only the JSON array with string elements and nothing else.",
       },
     ],
   })

@@ -1,0 +1,16 @@
+{
+  "name": "jira-scanning",
+  "version": "1.0.0",
+  "description": "A script for scanning the IAGL jira to assess the quality of our tickets",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "ben.patterson@avios.com",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "xmldom": "^0.6.0"
+  }
+}
